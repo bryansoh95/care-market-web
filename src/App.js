@@ -1,10 +1,11 @@
 import './App.css';
-import React from 'react';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Login from './views/user/Login.js';
 
-const App = () => {
+function App() {
   return (
     <Router>
       <Switch>
@@ -15,3 +16,5 @@ const App = () => {
 };
 
 export default App;
+
+render(<App />, document.getElementById("root"));
