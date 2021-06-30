@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { render } from 'react-dom';
 import { Link, useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 import axios from 'axios';
 import '../../stylesheets/css/bootstrap.css';
 
@@ -12,6 +15,7 @@ import {
     CardTitle,
     Col,
     Container,
+    Form,
     FormGroup,
     Input,
     Label,
@@ -21,27 +25,27 @@ import {
 function Login() {
   const history = useHistory();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isError, toggleError] = useState(false);
 
-  const onChangeEmail = e => {
-    setEmail(e.target.value);
-  };
-  const onChangePassword = e => {
-    setPassword(e.target.value);
-  };
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required('Email is required'),
+    password: Yup.string().required('Password is required')
+  });
+  const formOptions = { resolver: yupResolver(validationSchema) };
+  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { errors } = formState;
 
-  const signIn = e => {
-    e.preventDefault();
-
-    console.log('p[ressed')
+  const signIn = data => {
     axios.post(`http://localhost:5000/caregiver/login`, {
-      email: email,
-      password: password
+      email: data.email,
+      password: data.password
     })
     .then(response => {
+      reset({
+        email: '',
+        password: ''
+      });
       console.log(JSON.stringify(response.data.token))
     });
   }
@@ -57,17 +61,21 @@ function Login() {
                 <CardTitle>Welcome to Care Market</CardTitle>
               </CardHeader>
               <CardBody>
-                <FormGroup>
-                  <Label for='email'>Email</Label>
-                  <Input type='email' name='email' id='email' value={email} onChange={onChangeEmail} required />
-                </FormGroup>
-                <FormGroup>
-                  <Label for='password'>Password</Label>
-                  <Input type='password' name='password' id='password' value={password} onChange={onChangePassword} required />
-                </FormGroup>
-                <FormGroup>
-                  <Button type='submit' onClick={signIn}>Sign In</Button>
-                </FormGroup>
+                <Form name='signInForm' onSubmit={handleSubmit(signIn)}>
+                  <FormGroup>
+                    <Label for='email'>Email</Label>
+                    <Input type='email' {...register('email')} />
+                    <div>{errors.email?.message}</div>
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for='password'>Password</Label>
+                    <Input type='password' {...register('password')} />
+                    <div>{errors.password?.message}</div>
+                  </FormGroup>
+                  <FormGroup>
+                    <Button type='submit'>Sign In</Button>
+                  </FormGroup>
+                </Form>
               </CardBody>
             </Card>
           </Col>
