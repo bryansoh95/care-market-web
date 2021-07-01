@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { render } from 'react-dom';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -32,8 +31,7 @@ function Login() {
     email: Yup.string().required('Email is required'),
     password: Yup.string().required('Password is required')
   });
-  const formOptions = { resolver: yupResolver(validationSchema) };
-  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { register, handleSubmit, reset, getValues, setValue, formState } = useForm({ resolver: yupResolver(validationSchema) });
   const { errors } = formState;
 
   const signIn = data => {
@@ -42,11 +40,14 @@ function Login() {
       password: data.password
     })
     .then(response => {
-      reset({
-        email: '',
-        password: ''
-      });
+      document.getElementById('signInForm').reset();
+      reset();
       console.log(JSON.stringify(response.data.token))
+    })
+    .catch(error => {
+      document.getElementById('signInForm').reset();
+      reset();
+      console.log(error.response.data)
     });
   }
 
@@ -61,7 +62,7 @@ function Login() {
                 <CardTitle>Welcome to Care Market</CardTitle>
               </CardHeader>
               <CardBody>
-                <Form name='signInForm' onSubmit={handleSubmit(signIn)}>
+                <Form id='signInForm' onSubmit={handleSubmit(signIn)}>
                   <FormGroup>
                     <Label for='email'>Email</Label>
                     <Input type='email' {...register('email')} />
@@ -74,6 +75,7 @@ function Login() {
                   </FormGroup>
                   <FormGroup>
                     <Button type='submit'>Sign In</Button>
+                    <Button type='reset'>Reset</Button>
                   </FormGroup>
                 </Form>
               </CardBody>
@@ -86,5 +88,3 @@ function Login() {
 };
 
 export default Login;
-
-render(<Login />, document.getElementById("root"));

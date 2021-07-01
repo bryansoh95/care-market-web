@@ -1,6 +1,5 @@
 import './App.css';
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Login from './views/user/Login.js';
@@ -16,5 +15,3 @@ function App() {
 };
 
 export default App;
-
-render(<App />, document.getElementById("root"));
