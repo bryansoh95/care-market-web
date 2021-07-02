@@ -5,7 +5,7 @@ import LoginForm from '../../components/LoginForm.js';
 function Login() {
   return (
     <div>
-      <LoginForm testProp='testing prop' />
+      <p>Sample</p>
     </div>
   );
 };
