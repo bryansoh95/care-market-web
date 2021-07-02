@@ -31,7 +31,7 @@ function Login() {
     email: Yup.string().required('Email is required'),
     password: Yup.string().required('Password is required')
   });
-  const { register, handleSubmit, reset, getValues, setValue, formState } = useForm({ resolver: yupResolver(validationSchema) });
+  const { register, handleSubmit, reset, setError, setValue, formState } = useForm({ resolver: yupResolver(validationSchema) });
   const { errors } = formState;
 
   const signIn = data => {
@@ -45,10 +45,18 @@ function Login() {
       console.log(JSON.stringify(response.data.token))
     })
     .catch(error => {
+      setError('errorServerSide', { type: 'manual', message: error.response.data })
+      setValue('email', '')
+      setValue('password', '')
       document.getElementById('signInForm').reset();
-      reset();
-      console.log(error.response.data)
     });
+  }
+
+  const onChangeEmail = e => {
+    setValue('email', e.target.value)
+  }
+  const onChangePassword = e => {
+    setValue('password', e.target.value)
   }
 
   return (
@@ -65,18 +73,19 @@ function Login() {
                 <Form id='signInForm' onSubmit={handleSubmit(signIn)}>
                   <FormGroup>
                     <Label for='email'>Email</Label>
-                    <Input type='email' {...register('email')} />
+                    <Input type='email' {...register('email')} onChange={onChangeEmail} onBlur={onChangeEmail} onKeyDown={onChangeEmail} />
                     <div>{errors.email?.message}</div>
                   </FormGroup>
                   <FormGroup>
                     <Label for='password'>Password</Label>
-                    <Input type='password' {...register('password')} />
+                    <Input type='password' {...register('password')} onChange={onChangePassword} />
                     <div>{errors.password?.message}</div>
                   </FormGroup>
                   <FormGroup>
                     <Button type='submit'>Sign In</Button>
                     <Button type='reset'>Reset</Button>
                   </FormGroup>
+                  <div>{errors.errorServerSide?.message}</div>
                 </Form>
               </CardBody>
             </Card>
