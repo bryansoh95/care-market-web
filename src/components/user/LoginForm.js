@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import axios from 'axios';
-import '../stylesheets/css/bootstrap.css';
-import '../stylesheets/main.css';
-import '../../node_modules/@fortawesome/fontawesome-free/css/all.css';
+import '../../stylesheets/css/bootstrap.css';
+import '../../stylesheets/main.css'
+import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css'
 
 import {
     Button,
@@ -23,7 +23,8 @@ import {
     Row
 } from 'reactstrap';
 
-function LoginForm() {
+function LoginForm(props) {
+  const { hrefForgotPassword, hrefRegister } = props;
   const history = useHistory();
 
   const validationSchema = Yup.object().shape({
@@ -90,7 +91,7 @@ function LoginForm() {
                       onChange={onChangePassword}
                     />
                     <div className='invalid-feedback col-6'>{errors.password?.message}</div>
-                    <div style={{textAlign: 'right', fontSize: '10px'}}><NavLink to='#'><p>Forgot Password</p></NavLink></div>
+                    <div style={{textAlign: 'right', fontSize: '10px'}}><NavLink to={hrefForgotPassword}><p>Forgot Password</p></NavLink></div>
                   </FormGroup>
                   <FormGroup style={{textAlign: 'center'}}>
                     <Button type='submit'><p>Sign In</p></Button>
@@ -98,7 +99,7 @@ function LoginForm() {
                   <div className='alert alert-danger' style={{display: errors.errorServerSide? 'block' : 'none' }}><i class="fas fa-exclamation-triangle"></i>
                     &nbsp;{errors.errorServerSide?.message}</div>
                 </Form>
-                <div style={{textAlign: 'center', marginTop: '10px'}}><p>Don't have an account? <NavLink to='/register'>Register Here</NavLink></p></div>
+                <div style={{textAlign: 'center', marginTop: '10px'}}><p>Don't have an account? <NavLink to={hrefRegister}>Register Here</NavLink></p></div>
               </CardBody>
             </Card>
           </Col>

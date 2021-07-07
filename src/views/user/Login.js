@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import LoginForm from '../../components/LoginForm.js';
+import LoginForm from '../../components/user/LoginForm.js';
+import Footer from '../../components/template/Footer.js';
 
 function Login() {
   return (
     <div>
-      <LoginForm testProp='testing prop' />
+      <LoginForm hrefForgotPassword='#' hrefRegister='/register' />
+      <Footer />
     </div>
   );
 };
