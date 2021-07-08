@@ -22,7 +22,7 @@ Button {
 }
 
 h1, h2, h3, p {
-  font-family: "Fredoka One";
+  font-family: 'Roboto';
   font-weight: 100;
   font-style: normal;
   margin: 0px
@@ -31,4 +31,18 @@ h1, h2, h3, p {
 a {
   color: black;
   text-decoration: none;
+}
+
+@media only screen and (max-width: 575px) {
+  .footerRow1Card {
+    border-bottom: 0px;
+  }
+  .footerRow2 {
+    display: none;
+  }
+
+  .footerImage {
+    max-height: 50%;
+    max-width: 100%;
+  }
 }
