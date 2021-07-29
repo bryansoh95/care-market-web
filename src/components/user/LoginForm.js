@@ -7,6 +7,7 @@ import axios from 'axios';
 import '../../stylesheets/css/bootstrap.css';
 import '../../stylesheets/main.css'
 import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css'
+import { useCredential, useCredentialUpdate } from '../../contexts/CredentialContext';
 
 import {
     Button,
@@ -42,6 +43,7 @@ function LoginForm(props) {
     .then(response => {
       document.getElementById('signInForm').reset();
       reset();
+      // useCredentialUpdate(response.data.caregiver, response.data.token);
       console.log(JSON.stringify(response.data.token))
     })
     .catch(error => {

@@ -84,63 +84,59 @@ function Footer() {
   return (
     <div>
       <Container>
-        <Row>
-          <Col>
-            <Card className='footerRow1Card' style={{borderLeft: '0px', borderTop: '0px', borderRight: '0px'}}>
-              <CardBody style={{padding: '0px'}}>
-                <Row>
-                  <Col sm='6' xs='3'>
-                    <div style={{display: 'flex'}}>
-                      {
-                        company.map(com => (
-                          <Card key={com.name} style={{border: '0px', marginTop: '10px'}}>
-                            <CardImg className='footerImage' style={{height: '150px', width: '150px', objectFit: 'contain', marginLeft: '0px'}} src={com.image} />
-                          </Card>
-                        ))
-                      }
-                    </div>
-                  </Col>
-                  <Col sm='6' xs='9'>
-                    <div style={{float: 'right', display: 'flex'}}>
-                      {
-                        partnersToRender.map(partner => (
-                          <Card key={partner.id} style={{border: '0px', margin: '10px'}}>
-                            <CardImg className='footerImage' style={{height:'150px', width: '100px', objectFit: 'contain'}} src={partner.image} />
-                          </Card>
-                        ))
-                      }
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-            <Card style={{border: '0px'}}>
-              <Row className='footerRow2' style={{paddingTop: '40px'}}>
-                <Col sm='6'>
-                  <div style={{display: 'flex'}}>
-                    <div style={{textAlign: 'center', marginRight: '80px'}}>
-                      <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Disclaimer</p></NavLink>
-                    </div>
-                    <div style={{textAlign: 'center', marginRight: '80px'}}>
-                      <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Privacy</p></NavLink>
-                    </div>
-                    <div style={{textAlign: 'center', marginRight: '80px'}}>
-                      <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Terms of Use</p></NavLink>
-                    </div>
-                    <div style={{textAlign: 'center', marginRight: '80px'}}>
-                      <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Site Map</p></NavLink>
-                    </div>
-                  </div>
-                </Col>
-                <Col sm='6'>
-                  <div style={{textAlign: 'right'}}>
-                    <p style={{color: 'gray', fontSize: '14px'}}>copyright</p>
-                  </div>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
+        <Card className='footerRow1Card' style={{borderLeft: '0px', borderTop: '0px', borderRight: '0px'}}>
+          <CardBody style={{padding: '0px'}}>
+            <Row>
+              <Col sm='6' xs='3'>
+                <div style={{display: 'flex'}}>
+                  {
+                    company.map(com => (
+                      <Card key={com.name} style={{border: '0px', marginTop: '10px'}}>
+                        <CardImg className='footerImage' style={{height: '150px', width: '150px', objectFit: 'contain', marginLeft: '0px'}} src={com.image} />
+                      </Card>
+                    ))
+                  }
+                </div>
+              </Col>
+              <Col sm='6' xs='9'>
+                <div style={{float: 'right', display: 'flex'}}>
+                  {
+                    partnersToRender.map(partner => (
+                      <Card key={partner.id} style={{border: '0px', margin: '10px'}}>
+                        <CardImg className='footerImage' style={{height:'150px', width: '100px', objectFit: 'contain'}} src={partner.image} />
+                      </Card>
+                    ))
+                  }
+                </div>
+              </Col>
+            </Row>
+          </CardBody>
+        </Card>
+        <Card style={{border: '0px'}}>
+          <Row className='footerRow2' style={{paddingTop: '40px'}}>
+            <Col sm='6'>
+              <div style={{display: 'flex'}}>
+                <div style={{textAlign: 'center', marginRight: '80px'}}>
+                  <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Disclaimer</p></NavLink>
+                </div>
+                <div style={{textAlign: 'center', marginRight: '80px'}}>
+                  <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Privacy</p></NavLink>
+                </div>
+                <div style={{textAlign: 'center', marginRight: '80px'}}>
+                  <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Terms of Use</p></NavLink>
+                </div>
+                <div style={{textAlign: 'center', marginRight: '80px'}}>
+                  <NavLink to='#'><p style={{color: 'gray', fontSize: '14px'}}>Site Map</p></NavLink>
+                </div>
+              </div>
+            </Col>
+            <Col sm='6'>
+              <div style={{textAlign: 'right'}}>
+                <p style={{color: 'gray', fontSize: '14px'}}>copyright</p>
+              </div>
+            </Col>
+          </Row>
+        </Card>
       </Container>
     </div>
   );
