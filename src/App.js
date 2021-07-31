@@ -9,16 +9,18 @@ import Register from './views/user/Register.js';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/register'>
-          <CredentialProvider>
+    <CredentialProvider>
+      <Router>
+        <Switch>
+          <Route exact path='/register'>
             <Register />
-          </CredentialProvider>
-        </Route>
-        <Route exact path='/' component={Login} />
-      </Switch>
-    </Router>
+          </Route>
+          <Route exact path='/'>
+            <Login />
+          </Route>
+        </Switch>
+      </Router>
+    </CredentialProvider>
   );
 };
 

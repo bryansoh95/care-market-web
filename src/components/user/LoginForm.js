@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import '../../stylesheets/css/bootstrap.css';
 import '../../stylesheets/main.css'
 import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css'
-import { useCredential, useCredentialUpdate } from '../../contexts/CredentialContext';
+import { useCredentialContext, useCredentialDispatch, loginCaregiver } from '../../contexts/CredentialContext';
 
 import {
     Button,
@@ -27,6 +27,7 @@ import {
 function LoginForm(props) {
   const { hrefForgotPassword, hrefRegister } = props;
   const history = useHistory();
+  const credentialDispatch = useCredentialDispatch();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required('Email is required'),
@@ -43,10 +44,20 @@ function LoginForm(props) {
     .then(response => {
       document.getElementById('signInForm').reset();
       reset();
-      // useCredentialUpdate(response.data.caregiver, response.data.token);
       console.log(JSON.stringify(response.data.token))
+      loginCaregiver(credentialDispatch, { caregiver: response.data.caregiver, token: response.data.token });
+      // credentialDispatch({
+      //   type: 'LOGIN',
+      //   payload: {
+      //     caregiver: response.data.caregiver,
+      //     token: response.data.token
+      //   }
+      // });
+      // useCredentialUpdate(response.data.caregiver, response.data.token);
+      
     })
     .catch(error => {
+      console.log(error)
       setError('errorServerSide', { type: 'manual', message: error.response.data })
       setValue('email', '')
       setValue('password', '')

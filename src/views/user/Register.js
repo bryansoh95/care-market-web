@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useCredential } from '../../contexts/CredentialContext';
+import { useCredentialContext } from '../../contexts/CredentialContext';
 
-function Login() {
-  const credential = useCredential();
+function Register() {
+  const credential = useCredentialContext();
   return (
     <div>
       <p>Sample {credential.token}</p>
@@ -11,4 +11,4 @@ function Login() {
   );
 };
 
-export default Login;
+export default Register;
