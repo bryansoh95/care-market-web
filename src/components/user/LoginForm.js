@@ -8,6 +8,7 @@ import '../../stylesheets/css/bootstrap.css';
 import '../../stylesheets/main.css'
 import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css'
 import { useCredentialContext, useCredentialDispatch, loginCaregiver } from '../../contexts/CredentialContext';
+import * as APICalls from '../../APICalls';
 
 import {
     Button,
@@ -37,34 +38,20 @@ function LoginForm(props) {
   const { errors } = formState;
 
   const signIn = data => {
-    axios.post(`http://localhost:5000/caregiver/login`, {
-      email: data.email,
-      password: data.password
-    })
-    .then(response => {
-      document.getElementById('signInForm').reset();
-      reset();
-      console.log(JSON.stringify(response.data.token))
-      loginCaregiver(credentialDispatch, { caregiver: response.data.caregiver, token: response.data.token });
-      // credentialDispatch({
-      //   type: 'LOGIN',
-      //   payload: {
-      //     caregiver: response.data.caregiver,
-      //     token: response.data.token
-      //   }
-      // });
-      // useCredentialUpdate(response.data.caregiver, response.data.token);
-      
-    })
-    .catch(error => {
-      console.log(error)
-      setError('errorServerSide', { type: 'manual', message: error.response.data })
-      setValue('email', '')
-      setValue('password', '')
-      document.getElementById('signInForm').reset();
-    });
-  }
-
+    APICalls.caregiverLogin(data.email, data.password)
+      .then(response => {
+        document.getElementById('signInForm').reset();
+        reset();
+        loginCaregiver(credentialDispatch, { caregiver: response.caregiver, token: response.token });
+      })
+      .catch(error => {
+        setError('errorServerSide', { type: 'manual', message: error.response.data })
+        setValue('email', '')
+        setValue('password', '')
+        document.getElementById('signInForm').reset();
+      });
+  };
+  
   const onChangeEmail = e => {
     setValue('email', e.target.value)
   }

@@ -33,7 +33,6 @@ export function useCredentialDispatch() {
 
 export function CredentialProvider({ children }) {
   const [credentialState, credentialDispatch] = useReducer(CredentialReducer, credentialInitialState);
-  console.log(credentialState)
 
   return (
     <CredentialContext.Provider value={credentialState}>
