@@ -7,7 +7,7 @@ function Login() {
   return (
     <div>
       <LoginForm hrefForgotPassword='#' hrefRegister='/register' />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

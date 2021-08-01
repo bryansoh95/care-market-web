@@ -7,8 +7,10 @@ import axios from 'axios';
 import '../../stylesheets/css/bootstrap.css';
 import '../../stylesheets/main.css'
 import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css'
+import { useSessionStorage } from '../../common/helpers/SessionStorageHelper';
 import { useCredentialContext, useCredentialDispatch, loginCaregiver } from '../../contexts/CredentialContext';
 import * as APICalls from '../../APICalls';
+import * as Constants from '../../common/Constants';
 
 import {
     Button,
@@ -27,6 +29,8 @@ import {
 
 function LoginForm(props) {
   const { hrefForgotPassword, hrefRegister } = props;
+  const [caregiver, setCaregiver] = useSessionStorage(Constants.SessionStorageKeys.CAREGIVER);
+  const [token, setToken] = useSessionStorage(Constants.SessionStorageKeys.TOKEN);
   const history = useHistory();
   const credentialDispatch = useCredentialDispatch();
 
@@ -42,9 +46,12 @@ function LoginForm(props) {
       .then(response => {
         document.getElementById('signInForm').reset();
         reset();
+        setCaregiver(response.caregiver);
+        setToken(response.token);
         loginCaregiver(credentialDispatch, { caregiver: response.caregiver, token: response.token });
       })
       .catch(error => {
+        console.log(error)
         setError('errorServerSide', { type: 'manual', message: error.response.data })
         setValue('email', '')
         setValue('password', '')
