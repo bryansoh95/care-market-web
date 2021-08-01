@@ -3,10 +3,9 @@ import { Link, NavLink, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import axios from 'axios';
 import '../../stylesheets/css/bootstrap.css';
-import '../../stylesheets/main.css'
-import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css'
+import '../../stylesheets/main.css';
+import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import { useSessionStorage } from '../../common/helpers/SessionStorageHelper';
 import { useCredentialContext, useCredentialDispatch, loginCaregiver } from '../../contexts/CredentialContext';
 import * as APICalls from '../../APICalls';
@@ -27,7 +26,7 @@ import {
     Row
 } from 'reactstrap';
 
-function LoginForm(props) {
+const LoginForm = (props) => {
   const { hrefForgotPassword, hrefRegister } = props;
   const [caregiver, setCaregiver] = useSessionStorage(Constants.SessionStorageKeys.CAREGIVER);
   const [token, setToken] = useSessionStorage(Constants.SessionStorageKeys.TOKEN);
@@ -51,7 +50,6 @@ function LoginForm(props) {
         loginCaregiver(credentialDispatch, { caregiver: response.caregiver, token: response.token });
       })
       .catch(error => {
-        console.log(error)
         setError('errorServerSide', { type: 'manual', message: error.response.data })
         setValue('email', '')
         setValue('password', '')
@@ -60,18 +58,19 @@ function LoginForm(props) {
   };
   
   const onChangeEmail = e => {
-    setValue('email', e.target.value)
-  }
+    setValue('email', e.target.value);
+  };
+
   const onChangePassword = e => {
-    setValue('password', e.target.value)
-  }
+    setValue('password', e.target.value);
+  };
 
   return (
     <div>
       <Container>
         <Row>
-          <Col xs="12" sm="6"></Col>
-          <Col xs ="12" sm="6">
+          <Col xs='12' sm='6'></Col>
+          <Col xs ='12' sm='6'>
             <Card>
               <CardBody>
                 <div style={{textAlign: 'center', marginBottom: '20px'}}><h1>Welcome to Care Market</h1></div>
