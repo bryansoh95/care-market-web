@@ -8,7 +8,7 @@ import '../../stylesheets/main.css';
 import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import * as APICalls from '../../APICalls';
 import * as Constants from '../../common/Constants';
-import { Card, CardBody, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
+import { Button, Card, CardBody, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 
 const RegistrationForm = () => {
   const validationSchema = Yup.object().shape({
@@ -24,7 +24,7 @@ const RegistrationForm = () => {
     isNurse: Yup.bool().notRequired()
   });
 
-  const { register, handleSubmit, reset, setError, setValue, formState } = useForm({ resolver: yupResolver(validationSchema) });
+  const { register, handleSubmit, reset, setError, getValues, setValue, formState } = useForm({ resolver: yupResolver(validationSchema) });
   const { errors } = formState;
 
   const registerUser = data => {};
@@ -32,27 +32,85 @@ const RegistrationForm = () => {
   const onChangeFirstName = e => {
     setValue('firstName', e.target.value);
   };
+  const onChangeLastName = e => {
+    setValue('lastName', e.target.value);
+  };
+  const onChangeGender = e => {
+    setValue('gender', e.target.value);
+    console.log('current gender: ' + getValues('gender'))
+  }
 
   return (
     <div>
       <Container>
         <Row>
-          <Col xs='12' sm='6'>
+          <Col>
             <Card>
               <CardBody>
                 <div style={{textAlign: 'center', marginBottom: '20px'}}><h1>Registration</h1></div>
                 <Form id='registrationForm' onSubmit={handleSubmit(register)}>
-                  <FormGroup>
-                    <Label for='firstName'><p>First Name</p></Label>
-                    <Input
-                      {...register('firstName')}
-                      className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                      type='text'
-                      onChange={onChangeFirstName}
-                      onBlur={onChangeFirstName}
-                      onKeyDown={onChangeFirstName}
-                    />
-                    <div className='invalid-feedback'>{errors.firstName?.message}</div>
+                  <Row>
+                    <Col xs='12' sm='6'>
+                      <FormGroup>
+                        <Label for='firstName'><p>First Name</p></Label>
+                        <Input
+                          {...register('firstName')}
+                          className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                          type='text'
+                          onChange={onChangeFirstName}
+                          onBlur={onChangeFirstName}
+                          onKeyDown={onChangeFirstName}
+                        />
+                        <div className='invalid-feedback'>{errors.firstName?.message}</div>
+                      </FormGroup>
+                    </Col>
+                    <Col xs='12' sm='6'>
+                      <FormGroup>
+                        <Label for='lastName'><p>Last Name</p></Label>
+                        <Input
+                          {...register('lastName')}
+                          className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                          type='text'
+                          onChange={onChangeLastName}
+                          onBlur={onChangeLastName}
+                          onKeyDown={onChangeLastName}
+                        />
+                        <div className='invalid-feedback'>{errors.lastName?.message}</div>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs='12' sm='3'>
+                      <FormGroup className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}>
+                        <Label for='gender'><p>Gender</p></Label>
+                        <Label>
+                          Male
+                          <Input
+                            {...register('gender')}
+                            type='radio'
+                            name='gender'
+                            value='male'
+                            onChange={onChangeGender}
+                            checked={getValues('gender')}
+                          />
+                        </Label>
+                        <Label>
+                          Female
+                          <Input
+                            {...register('gender')}
+                            type='radio'
+                            name='gender'
+                            value='female'
+                            onChange={onChangeGender}
+                            checked={getValues('gender')}
+                          />
+                        </Label>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  
+                  <FormGroup style={{textAlign: 'center'}}>
+                    <Button type='submit'><p>Sign In</p></Button>
                   </FormGroup>
                 </Form>
               </CardBody>
