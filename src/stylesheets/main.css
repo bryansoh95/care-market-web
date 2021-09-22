@@ -46,3 +46,7 @@ a {
     max-width: 100%;
   }
 }
+
+.registration-form-select-multiple {
+  overflow: hidden;
+}
