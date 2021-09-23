@@ -26,10 +26,32 @@ const RegistrationForm = () => {
     isNurse: Yup.bool().notRequired()
   });
 
-  const { register, handleSubmit, setValue, formState } = useForm({ resolver: yupResolver(validationSchema) });
+  const { register, reset, handleSubmit, setError, setValue, formState } = useForm({ resolver: yupResolver(validationSchema) });
   const { errors } = formState;
 
-  const registerUser = data => {};
+  const registerCaregiver = data => {
+    APICalls.caregiverRegister(data.firstName, data.lastName, data.gender, data.race, data.mobileNumber, data.email, data.password)
+      .then(response => {
+        document.getElementById('registrationForm').reset();
+        reset();
+      })
+      .catch(error => {
+        setError('errorServerSide', { type: 'manual', message: error.response.data });
+        setValue('firstName', '');
+        setValue('lastName', '');
+        setValue('gender', '');
+        setValue('race', '');
+        setValue('email', '');
+        setValue('mobileNumber', '');
+        setValue('password', '');
+        setValue('confirmPassword', '');
+        //setValue('job', '');
+        setValue('isBefriender', false);
+        setValue('isMedicalEscort', false);
+        setValue('isNurse', false);
+        document.getElementById('registrationForm').reset();
+      });
+  };
 
   const onChangeFirstName = e => {
     setValue('firstName', e.target.value);
@@ -74,7 +96,7 @@ const RegistrationForm = () => {
             <Card>
               <CardBody>
                 <div style={{textAlign: 'center', marginBottom: '20px'}}><h1>Registration</h1></div>
-                <Form id='registrationForm' onSubmit={handleSubmit(register)}>
+                <Form id='registrationForm' onSubmit={handleSubmit(registerCaregiver)}>
                   <Row>
                     <Col xs='12' sm='6'>
                       <FormGroup>
@@ -96,7 +118,7 @@ const RegistrationForm = () => {
                         <Label for='lastName'><p>Last Name</p></Label>
                         <Input
                           {...register('lastName')}
-                          className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                          className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
                           id='lastName'
                           type='text'
                           onChange={onChangeLastName}
@@ -223,6 +245,8 @@ const RegistrationForm = () => {
                 </Form>
               </CardBody>
             </Card>
+            <div className='alert alert-danger' style={{display: errors.errorServerSide? 'block' : 'none' }}><i class="fas fa-exclamation-triangle"></i>
+              &nbsp;{errors.errorServerSide?.message}</div>
           </Col>
         </Row>
       </Container>
